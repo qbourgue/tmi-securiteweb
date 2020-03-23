@@ -4,7 +4,7 @@
 
 - RANDOM_KEY = md5.new("085ZMVsBnTYuO6OK7gfJpGXeik5VZamC").digest;
 * MD5
-* Same key for every one
+* Same key for every user
 * Key stored in plain text in the code
 
 - SECURE_DIRECTORY = '/tmp'
@@ -19,6 +19,7 @@
 * ECB ?
 
 - f = open(SECURE_DIRECTORY + '/' + filename + '-' + suffix, 'w')
+* Directory traversal (filemane= '../../etc/passwd')
 
 - f.write(d.encrypt(bytes(data)))
 
@@ -26,18 +27,28 @@
 
 ## List secure data (line 19)
 - def list_secure_data(path): return commands.getstatusoutput('ls ' + SECURE_DIRECTORY+ '/' + path)[1]
-* Command injection ? with a specific path
+* Command injection, path = ' ; rm /tmp'
+* Directory traversal, path = '../../homes') 
 
-## Api employee (line 24-29)
-- @app.route('/employee')
-employee name in plain text. Everyone can access it.
-
-- "list": lambda: list_secure_data(request.args['ssn'])
+## Api employee (line 24-30)
+- Line 27: "list": lambda: list_secure_data(request.args['ssn'])
 * request.args['ssn'] is not sanitised, could perform command injection.
+* Expose all files, begining with request.args['ssn'], to the api user
 
-- "add": lambda: secure_store(request.args['ssn'], request.args['email'],request.args['data'])
+- Line 28: "add": lambda: secure_store(request.args['ssn'], request.args['email'],request.args['data'])
 * request.args are not sanitised. 
+* suffix = email in plain text 
 
-- s.get(request.args['cmd'], lambda: "no such command")
+- Line 30:  s.get(request.args['cmd'], lambda: "no such command")
 * command injection ? not secure
+* User can perform any command he wants.
 
+# WHODUNNIT
+
+## Tim created random key
+## John choose the Secure_directory
+
+## Jo implemented api_employee
+* He did not sanitised the request arguments
+* He add line 30, allowing user to perform any command he wants
+* He introduces a way to list every file in the secure_directory

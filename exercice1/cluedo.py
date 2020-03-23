@@ -5,7 +5,7 @@ import md5
 import pyDes
 
 app = Flask(__name__)
-RANDOM_KEY = md5.new("0852MVsBnTYuO6OK7gfJpGXeik5VZamC").digest;
+RANDOM_KEY = md5.new("085ZMVsBnTYuO6OK7gfJpGXeik5VZamC").digest;
 SECURE_DIRECTORY = '/tmp'
 
 def secure_store(filename, suffix, data):

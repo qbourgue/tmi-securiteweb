@@ -97,7 +97,7 @@
       {
         "id": "8043b8b6-2474-4373-ac0c-863cbc102af4",
         "name": "user",
-        "description": "user privileges.",
+        "description": "user",
         "composite": false,
         "clientRole": false,
         "containerId": "master",
@@ -114,11 +114,54 @@
       }
     ],
     "client": {
+      "app-jsp": [
+        {
+          "id": "736b1006-d557-4f49-97d0-9159c0e3502a",
+          "name": "admin",
+          "description": "admin for app jsp.",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "b876b436-8781-45ea-bd7b-3c50ab65ad77",
+          "attributes": {}
+        }
+      ],
       "security-admin-console": [],
       "service-jaxrs": [],
       "admin-cli": [],
       "account-console": [],
-      "app-html5": [],
+      "app-html5": [
+        {
+          "id": "6e6cd74f-2fbf-4696-98bc-6e6aa86018c7",
+          "name": "admin",
+          "description": "admin privileges in app html 5.",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "26cc6f52-fd4f-4c50-a998-f20f7af5315d",
+          "attributes": {}
+        },
+        {
+          "id": "59417b66-5396-4c27-a4a4-34128b5b83b6",
+          "name": "wesh",
+          "description": "test",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "26cc6f52-fd4f-4c50-a998-f20f7af5315d",
+          "attributes": {
+            "role": [
+              "admin"
+            ]
+          }
+        },
+        {
+          "id": "9060c998-93c1-4fe5-8565-a7c12b5ffa0f",
+          "name": "user",
+          "description": "user privileges in app html 5.",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "26cc6f52-fd4f-4c50-a998-f20f7af5315d",
+          "attributes": {}
+        }
+      ],
       "broker": [
         {
           "id": "d36d9da3-18d2-402b-add8-1878295bd400",
@@ -610,6 +653,64 @@
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {},
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "role_list",
+        "roles",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "b876b436-8781-45ea-bd7b-3c50ab65ad77",
+      "clientId": "app-jsp",
+      "rootUrl": "http://localhost:8080/app-jsp",
+      "adminUrl": "http://localhost:8080/app-jsp",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "http://localhost:8080/app-jsp/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8080"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,

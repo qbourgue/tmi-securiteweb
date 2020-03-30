@@ -1,6 +1,4 @@
-# Projet Sécurité Web
-
-## Exercice 2
+# Projet Sécurité Web: Exercice 2
 
 Nous allons suivre l'exemple 4:
 
@@ -10,11 +8,7 @@ Intitulé du sujet:
 
 - contre mesure possible, utilisation d'openid connect, déploiement de [keycloak](https://www.keycloak.org/) pour l'authentification.
 
-## Exploration de solutions existante
-
-### Simple Docker image for basic authentication
-
-https://github.com/beevelop/docker-nginx-basic-auth
+## Keycloak and Wildfly configuration
 
 ### Requirement 
 
@@ -35,47 +29,92 @@ docker run -p 8070:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.i
 
 Keycloak available on localhost port 8070.
 
-#### Application exemple
+
+### Wildfly
+#### Local Install
+
+https://vitux.com/install-and-configure-wildfly-jboss-on-ubuntu/
+- Download WildFly
+> Version_Number=16.0.0.Final
+> wget https://download.jboss.org/wildfly/$Version_Number/wildfly-$Version_Number.tar.gz -P /tmp
+
+- Unzip the WildFly zip 
+
+- Launch WildFly server 
+> sh wildfly-10.1.0.Final/bin/standalone.sh
+
+Disponible on localhost:8080; Admin on localhost:9990/console
+
+#### Setup Keycloak adapter for WildFly
+- Setup instruction 
+
+https://github.com/keycloak/keycloak-quickstarts/blob/latest/docs/getting-started.md#start-and-configure-the-wildfly-server
+
+- Download the adapter openid for WildFly
+> https://www.keycloak.org/downloads.html
+In section Client Adapter, OpenId Connect, WildFly.
+
+- Unzip the file inside the installation directory of WildFly.
+
+- Launch the WildFly server (if not done already)
+> sh wildfly-10.1.0.Final/bin/standalone.sh
+
+- Configure the adapter
+Go to the WILDFLY_DIRECTORY/bin
+> ./jboss-cli.sh -c --file=./adapter-install.cli
+> ./jboss-cli.sh -c --command:=reload
+
+### Application exemple
 
 From Github repertory: https://github.com/keycloak/keycloak-quickstarts
+- Download github repository
 
-##### Launch JAX-RS Service:
-https://github.com/keycloak/keycloak-quickstarts/tree/latest/service-jee-jaxrs
+#### Setup JAX-RS service 
+- Github tuto:
+https://github.com/keycloak/keycloak-quickstarts/blob/latest/service-jee-jaxrs/README.md
+- Configuration in Keycloak 
+Inside tuto
+> Move the file keycloak.json to keycloak-quickstarts/service-jee-jaxrs/config/ 
 
-In keycloak-quickstarts/service-jee-jaxrs: 
-
+- Build and Deploy JAX-RS Service
 > mvn clean wildfly:deploy
 
-It will open three endpoint for the service:
-- public - http://localhost:8080/service/public
-- secured - http://localhost:8080/service/secured
-- admin - http://localhost:8080/service/admin
+- Check the config 
+The endpoints for the service are:
 
-#### Launch Html5 Application 
+public - http://localhost:8080/service/public
+secured - http://localhost:8080/service/secured
+admin - http://localhost:8080/service/admin
+
+Only public, should be available.
+
+#### Setup App jsp
+- Github tuto:
+https://github.com/keycloak/keycloak-quickstarts/blob/latest/app-jee-jsp/README.md
+- Configuration in Keycloak
+Inside tuto
+> Move the file keycloak.json to keycloak-quickstarts/app-jee-jsp/config/ 
+
+- Build and Deploy App jee jsp
+> mvn install wildfly:deploy
+
+- Access the app
+> http://localhost:8080/app-jsp
+
+Invoke public - Invokes the public endpoint and doesn't require a user to be logged-in
+Invoke secured - Invokes the secured endpoint and requires a user with the role user to be logged-in
+Invoke admin - Invokes the secured endpoint and requires a user with the role admin to be logged-in
+
+#### Add roles in Keycloak
+- Go the the keycloak administration: http://localhost:8070/
+admin:admin
+- Add roles: admin, user
+- Add user: + Role mapping admin or user
 
 
 
-### Requirement Setup
+## Solution sans keycloak
 
-#### Keycload WildFly Adapter
+### Simple Docker image for basic authentication
 
-Download: https://www.keycloak.org/downloads.html
-
-##### Docker wildfly
-sudo docker run -p 8080:8080 -p 9990:9990 -it jboss/wildfly /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
-
-Doc: https://github.com/JBoss-Dockerfiles/wildfly
-
-##### Local Install
-https://vitux.com/install-and-configure-wildfly-jboss-on-ubuntu/
-
-sh wildfly-10.1.0.Final/bin/standalone.sh
-
-Disponible on localhost:8080
-
-Admin on localhost:9990/console
-
-#### Wildfly 
-
-### JDK 8
-sudo apt install openjdk-8-jdk openjdk-8-jre
+https://github.com/beevelop/docker-nginx-basic-auth

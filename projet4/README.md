@@ -8,7 +8,7 @@ Intitulé du sujet:
 
 - contre mesure possible, utilisation d'openid connect, déploiement de [keycloak](https://www.keycloak.org/) pour l'authentification.
 
-## Keycloak and Wildfly configuration
+## Keycloak and Openid connect solution
 
 ### Requirement 
 
@@ -16,11 +16,11 @@ Intitulé du sujet:
 - Java 8.0 (Java SDK 1.8) or later
 - Maven 3.1.1 or later
 
-### Keycloak
+### Test the solution
 
 To test keycloak solution, please follow the [**Getting started** guide](./gettingStarted.md).
 
-## Authentification sans keycloak
+## Authentification without keycloak
 
 ### Simple Docker image for basic authentication
 

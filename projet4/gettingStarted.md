@@ -15,7 +15,7 @@ This document explains how to start Keycloak Docker, WildFly Docker, and a basic
 - Go to WildFly directory
 tmi-securiteweb/projet4/WildFly
 - Build the docker image:
-> docker build --tag=wildfly-server
+> docker build -tag wildfly-server .
 
 #### Launch the WildFly docker:
 > docker run -p 8080:8080 -p 9990:9990 --network="host" -it wildfly-server
@@ -23,6 +23,7 @@ tmi-securiteweb/projet4/WildFly
 WildFly avalaible on localhost:8080; Admin console on localhost:9990/console
 
 ## Keycloak
+
 From: https://www.keycloak.org/getting-started/getting-started-docker
 
 #### Launch the Keycloak docker: 
@@ -68,6 +69,7 @@ admin - http://localhost:8080/service/admin
 Only public, should be available.
 
 ## App jsp
+
 From Github repertory: https://github.com/keycloak/keycloak-quickstarts
 
 See the original tuto : 
@@ -87,9 +89,10 @@ https://github.com/keycloak/keycloak-quickstarts/blob/latest/app-jee-jsp/README.
     * Invoke admin - Invokes the secured endpoint and requires a user with the role admin to be logged-in.
 
 ## Add users in Keycloak
+
 - Go the the keycloak administration: http://localhost:8070/
 admin:admin
-- Go to *Roles* section, __Add user__.
+- Go to *Users* section, __Add user__.
 - Fill at least the username section, then __Save__.
 - Go to the section *Credentials* of this new user, and give him a password.
 - Go to the section *Role Mappings* of this new user, and give him roles.
@@ -104,7 +107,7 @@ In the directory where it was deployed:
 ### Docker
 - List docker
 > docker ps -a
-- Remoce docker
+- Remove docker
 > docker rm docker_id
 - Remove all
->docker rm -f $(docker ps -a -q) 
+> docker rm -f $(docker ps -a -q) 
